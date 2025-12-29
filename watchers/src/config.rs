@@ -11,6 +11,7 @@ pub use filters::FilterResult;
 
 pub struct Config {
     pub port: u16,
+    pub client_port: Option<u16>,
     pub host: String,
     pub idle_timeout: Duration,
     pub poll_time_idle: Duration,
@@ -45,5 +46,9 @@ impl Config {
 
     pub fn client_host(&self) -> String {
         normalize_server_host(&self.host)
+    }
+
+    pub fn report_port(&self) -> u16 {
+        self.client_port.unwrap_or(self.port)
     }
 }

@@ -95,6 +95,7 @@ pub fn from_cli() -> anyhow::Result<RunnerConfig> {
     Ok(RunnerConfig {
         watchers_config: Config {
             port: config.server.port,
+            client_port: config.server.client_port,
             host: config.server.host,
             idle_timeout: config.client.get_idle_timeout(),
             poll_time_idle: config.client.get_poll_time_idle(),

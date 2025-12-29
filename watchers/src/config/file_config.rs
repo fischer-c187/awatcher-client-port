@@ -15,6 +15,7 @@ pub fn default_config() -> String {
 # port = {}
 # host = "{}"
 # client_port = {}
+# run_server = true
 
 [awatcher]
 # idle-timeout-seconds={}
@@ -60,6 +61,8 @@ pub struct ServerConfig {
     pub host: String,
     #[serde(default)]
     pub client_port: Option<u16>,
+    #[serde(default = "defaults::run_server")]
+    pub run_server: bool,
 }
 
 #[derive(Deserialize, DefaultFromSerde)]
@@ -168,6 +171,7 @@ mod tests {
 port = 1234
 host = "http://address.com"
 client_port = 5678
+run_server = false
 
 [awatcher]
 idle-timeout-seconds=14
@@ -194,6 +198,7 @@ replace-title = "Title"
         assert_eq!(1234, config.server.port);
         assert_eq!("http://address.com", config.server.host);
         assert_eq!(Some(5678), config.server.client_port);
+        assert!(!config.server.run_server);
 
         assert_eq!(14, config.client.idle_timeout_seconds);
         assert_eq!(13, config.client.poll_time_idle_seconds);
@@ -243,6 +248,7 @@ match-app-id = "firefox"
         assert_eq!(defaults::port(), config.server.port);
         assert_eq!(defaults::host(), config.server.host);
         assert!(config.server.client_port.is_none());
+        assert!(config.server.run_server);
 
         assert_eq!(
             defaults::idle_timeout_seconds(),

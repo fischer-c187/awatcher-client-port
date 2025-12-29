@@ -22,6 +22,8 @@ async fn main() -> anyhow::Result<(), Box<dyn Error>> {
     let no_tray = config.no_tray;
     #[cfg(feature = "bundle")]
     let config_file = config.config_file;
+    #[cfg(feature = "bundle")]
+    let run_server = config.run_server;
     let config = config.watchers_config;
 
     if config.no_server {
@@ -57,6 +59,7 @@ async fn main() -> anyhow::Result<(), Box<dyn Error>> {
         config.port,
         config_file,
         no_tray,
+        run_server,
         shutdown_send,
     ));
 

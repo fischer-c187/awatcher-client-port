@@ -11,6 +11,7 @@ pub async fn run(
     port: u16,
     config_file: PathBuf,
     no_tray: bool,
+    run_server: bool,
     shutdown_sender: UnboundedSender<()>,
 ) {
     let manager = modules::Manager::new(
@@ -24,5 +25,10 @@ pub async fn run(
         service.spawn();
     }
 
-    server::run(host.clone(), port).await;
+    if run_server {
+        server::run(host.clone(), port).await;
+    } else {
+        info!("Bundled server disabled by config; not starting aw-server.");
+        std::future::pending::<()>().await;
+    }
 }

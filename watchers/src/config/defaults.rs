@@ -13,3 +13,7 @@ pub fn port() -> u16 {
 pub fn host() -> String {
     "127.0.0.1".to_string()
 }
+
+pub fn run_server() -> bool {
+    true
+}

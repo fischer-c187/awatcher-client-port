@@ -15,6 +15,8 @@ pub struct RunnerConfig {
     pub config_file: PathBuf,
     #[cfg(feature = "bundle")]
     pub no_tray: bool,
+    #[cfg(feature = "bundle")]
+    pub run_server: bool,
 }
 
 pub fn setup_logger(verbosity: LevelFilter) -> Result<(), fern::InitError> {
@@ -107,6 +109,8 @@ pub fn from_cli() -> anyhow::Result<RunnerConfig> {
         config_file: config.config_file,
         #[cfg(feature = "bundle")]
         no_tray: *matches.get_one("no-tray").unwrap(),
+        #[cfg(feature = "bundle")]
+        run_server: config.server.run_server,
     })
 }
 

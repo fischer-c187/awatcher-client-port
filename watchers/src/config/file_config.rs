@@ -15,6 +15,7 @@ pub fn default_config() -> String {
 # port = {}
 # host = "{}"
 # client_port = {}
+# client_host = "{}"
 # run_server = true
 
 [awatcher]
@@ -47,6 +48,7 @@ pub fn default_config() -> String {
         defaults::port(),
         defaults::host(),
         defaults::port(),
+        defaults::host(),
         defaults::idle_timeout_seconds(),
         defaults::poll_time_idle_seconds(),
         defaults::poll_time_window_seconds(),
@@ -61,6 +63,8 @@ pub struct ServerConfig {
     pub host: String,
     #[serde(default)]
     pub client_port: Option<u16>,
+    #[serde(default)]
+    pub client_host: Option<String>,
     #[serde(default = "defaults::run_server")]
     pub run_server: bool,
 }
@@ -171,6 +175,7 @@ mod tests {
 port = 1234
 host = "http://address.com"
 client_port = 5678
+client_host = "http://client-address.com"
 run_server = false
 
 [awatcher]
@@ -198,6 +203,10 @@ replace-title = "Title"
         assert_eq!(1234, config.server.port);
         assert_eq!("http://address.com", config.server.host);
         assert_eq!(Some(5678), config.server.client_port);
+        assert_eq!(
+            Some("http://client-address.com".to_string()),
+            config.server.client_host
+        );
         assert!(!config.server.run_server);
 
         assert_eq!(14, config.client.idle_timeout_seconds);
@@ -248,6 +257,7 @@ match-app-id = "firefox"
         assert_eq!(defaults::port(), config.server.port);
         assert_eq!(defaults::host(), config.server.host);
         assert!(config.server.client_port.is_none());
+        assert!(config.server.client_host.is_none());
         assert!(config.server.run_server);
 
         assert_eq!(

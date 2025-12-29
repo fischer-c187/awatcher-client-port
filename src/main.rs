@@ -24,6 +24,8 @@ async fn main() -> anyhow::Result<(), Box<dyn Error>> {
     let config_file = config.config_file;
     #[cfg(feature = "bundle")]
     let run_server = config.run_server;
+    #[cfg(feature = "bundle")]
+    let server_host = config.server_host;
     let config = config.watchers_config;
 
     if config.no_server {
@@ -55,7 +57,7 @@ async fn main() -> anyhow::Result<(), Box<dyn Error>> {
     let (shutdown_send, mut shutdown_recv) = mpsc::unbounded_channel();
     #[cfg(feature = "bundle")]
     let bundle_handle = tokio::spawn(bundle::run(
-        config.host.clone(),
+        server_host,
         config.port,
         config_file,
         no_tray,

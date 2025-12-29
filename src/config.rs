@@ -17,6 +17,8 @@ pub struct RunnerConfig {
     pub no_tray: bool,
     #[cfg(feature = "bundle")]
     pub run_server: bool,
+    #[cfg(feature = "bundle")]
+    pub server_host: String,
 }
 
 pub fn setup_logger(verbosity: LevelFilter) -> Result<(), fern::InitError> {
@@ -94,11 +96,17 @@ pub fn from_cli() -> anyhow::Result<RunnerConfig> {
     };
     setup_logger(verbosity)?;
 
+    let client_host = config
+        .server
+        .client_host
+        .clone()
+        .unwrap_or_else(|| config.server.host.clone());
+
     Ok(RunnerConfig {
         watchers_config: Config {
             port: config.server.port,
             client_port: config.server.client_port,
-            host: config.server.host,
+            host: client_host,
             idle_timeout: config.client.get_idle_timeout(),
             poll_time_idle: config.client.get_poll_time_idle(),
             poll_time_window: config.client.get_poll_time_window(),
@@ -111,6 +119,8 @@ pub fn from_cli() -> anyhow::Result<RunnerConfig> {
         no_tray: *matches.get_one("no-tray").unwrap(),
         #[cfg(feature = "bundle")]
         run_server: config.server.run_server,
+        #[cfg(feature = "bundle")]
+        server_host: config.server.host,
     })
 }
 

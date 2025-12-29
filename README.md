@@ -72,6 +72,7 @@ The config file is in the default directory (`~/.config/awatcher`).
 [server]
 port = 5600
 host = "127.0.0.1"
+client_port = 5600 # optional, defaults to server.port
 
 [awatcher]
 idle-timeout-seconds=180
@@ -88,11 +89,12 @@ replace-title = "Unknown"
 ```
 
 - `server.port` and `server.host` address the ActivityWatch server instance.
+- `server.client_port` optionally overrides the port used by the client; defaults to `server.port`.
 - `awatcher.idle-timeout-seconds` is the time of inactivity when it is considered "idle".
 - `awatcher.poll-time-idle-seconds` and `awatcher.poll-time-window-seconds` are 
   intervals between collecting and sending statistics.
 
-All options of `server` and `awatcher` config file's sections can be overridden with command-line arguments, as well as the config path. See the builtin help in the command for details.
+Most options of `server` and `awatcher` config file's sections can be overridden with command-line arguments (except `server.client_port`), as well as the config path. See the builtin help in the command for details.
 
 ### Filters
 

@@ -28,10 +28,14 @@ async fn main() -> anyhow::Result<(), Box<dyn Error>> {
         warn!(
             "Not sending to server {}:{}",
             config.client_host(),
-            config.port
+            config.report_port()
         );
     } else {
-        info!("Sending to server {}:{}", config.client_host(), config.port);
+        info!(
+            "Sending to server {}:{}",
+            config.client_host(),
+            config.report_port()
+        );
     }
     info!(
         "Idle timeout: {} seconds",
